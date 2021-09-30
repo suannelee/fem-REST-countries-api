@@ -1,0 +1,62 @@
+$dm-elements: hsl(209, 23%, 22%);
+$dm-background: hsl(207, 26%, 17%);
+$lm-text: hsl(200, 15%, 8%);
+$lm-input: hsl(0, 0%, 52%);
+$lm-background: hsl(0, 0%, 98%);
+$white: hsl(0, 0%, 100%); //Dark Mode Text & Light Mode Elements
+
+html {
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+body {
+	//padding: 30px 15px;
+	max-width: 1440px;
+	margin: 0 auto 0;
+
+	@media (min-width: 600px) {
+		//padding: 70px 45px;
+	}
+
+	@media (min-width: 992px) {
+		//padding: 26px 79px;
+	}
+  
+	font-family: 'Nunito Sans', sans-serif;
+	min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+	margin: 0;
+	line-height: 1.1;
+}
+
+h1 {
+	font-size: 24px;
+}
+
+h2 {
+	font-size: 1.1rem;
+}
+
+h3 {
+	font-size: 1.05rem;
+}
+
+p {
+	font-size: 14px;
+}
+
+a,
+a:visited,
+a:active {
+	text-decoration: none;
+}
