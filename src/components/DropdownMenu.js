@@ -80,6 +80,7 @@ const DropdownMenu = ( props ) => {
                         {region}
                         </li>
                     ))}
+                    <li onClick={() => props.onClick('all')}>Show All</li>
                 </ul>
             </Menu>
         </DropdownStyle>

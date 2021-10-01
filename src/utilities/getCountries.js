@@ -18,8 +18,10 @@ export async function getCountries() {
             return {
                 name: country.name.common,
                 //capital: country.capital[0],
+                population: country.population.toLocaleString(),
                 region: country.region,
-                flag: country.flags[0]
+                flag: country.flags[0],
+                code: country.cca3
             }
         });
 

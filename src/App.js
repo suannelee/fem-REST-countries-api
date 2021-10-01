@@ -1,8 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import CountryCard from './components/CountryCard';
+import CountryInfo from './components/CountryInfo';
 import DropdownMenu from './components/DropdownMenu';
 import Toggle from "./components/ThemeToggler";
+import Loader from './components/Loader';
 import { getCountries } from './utilities/getCountries';
+import { getCountryInfo } from './utilities/getCountryInfo';
 import { ThemeProvider } from "styled-components";
 import { useDarkMode } from "./components/useDarkMode"
 import { GlobalStyles } from "./components/GlobalStyles";
@@ -62,11 +65,12 @@ function App() {
   const inputRef = useRef(null);
 
   const [theme, themeToggler] = useDarkMode();
+  const [isLoading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [countries, setCountries] = useState({});
-  const [isLoading, setLoading] = useState(true);
   const [regionsList, setRegionsList] = useState([]);
   const [showRegion, setShowRegion] = useState('');
+  const [showCountry, setShowCountry] = useState({});
 
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
 
@@ -81,26 +85,42 @@ function App() {
       let regionsList = Object.keys(result.reduce((r,{region}) => (r[region]='', r), {}))
       setRegionsList(regionsList.sort());
     })
-
-    
   }, [])
 
   const renderCountries = () => {
     const cards = countries
                     .filter(country => country.name.toLowerCase().includes(search.toLowerCase()))
                     .filter(country => country.region.toLowerCase().includes(showRegion.toLowerCase()))
-                    .map((country, index) => (
+                    .map((country) => (
                       <CountryCard 
-                        key={index}
+                        key={country.code}
                         name={country.name}
+                        population={country.population}
                         region={country.region}
                         flag={country.flag}
+                        onClick={() => showCountryInfo(country.code)}
                       />
                     ))
 
     return(
         <CardsWrapper>{cards}</CardsWrapper>
     )
+  } 
+
+  const changeRegions = (region) => {
+    if(region ==="all"){
+      setShowRegion('')
+    } else{
+      setShowRegion(regionsList[region]);
+    }
+  }
+  
+  const showCountryInfo = (code) => {
+    getCountryInfo(code)
+    .then(result => {
+      setShowCountry(result);
+      //console.log(result);
+    })
   }
 
   return (
@@ -111,26 +131,40 @@ function App() {
           <h1>Where in the world?</h1>
           <Toggle theme={theme} toggleTheme={themeToggler} />
         </Header>
-        {(isLoading) ? (
-            <div>Loading</div>
+        <Body>
+        {isLoading ? (
+            <Loader></Loader>
           ) : (
-            <Body>
-              <Filter>
-                <Input 
-                ref={inputRef}
-                placeholder="Search for a country..."
-                onChange={e => setSearch(e.target.value)}
-                />
-                <Icon><FontAwesomeIcon icon={faSearch}/></Icon>
-                <DropdownMenu
-                  regions={regionsList}
-                  onClick={i => setShowRegion(regionsList[i])}
-                />
-              </Filter>
-              {renderCountries()}
-            </Body>
+            <div>
+              {Object.keys(showCountry).length === 0 && showCountry.constructor === Object ? (
+                <div>
+                  <Filter>
+                    <Input 
+                    ref={inputRef}
+                    placeholder="Search for a country..."
+                    onChange={e => setSearch(e.target.value)}
+                    />
+                    <Icon><FontAwesomeIcon icon={faSearch}/></Icon>
+                    <DropdownMenu
+                      regions={regionsList}
+                      onClick={i => changeRegions(i)}
+                    />
+                  </Filter>
+                  {renderCountries()}
+                </div>
+              ) : (
+                <div>
+                  <button onClick={() => setShowCountry({})}>Back</button>  
+                  <CountryInfo
+                    country={showCountry}
+                    onClick={(code) => showCountryInfo(code)}
+                  />
+                </div>
+              )}
+            </div>
           )
         }
+        </Body>
       </>
     </ThemeProvider>
   );
