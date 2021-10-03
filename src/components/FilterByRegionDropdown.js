@@ -1,24 +1,29 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
+import { useDetectOutsideClick } from '../utilities/useDetectOutsideClick';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import styled from "styled-components";
+import styled , { css } from "styled-components";
 import '../index.scss';
+
+const commonStyles = css`    
+    background-color: ${({ theme }) => theme.elements}; 
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: ${({ theme }) => theme.text}; 
+    cursor: pointer;
+`;
 
 const DropdownStyle = styled.div`
     position: relative;
 `;
 
 const DropdownButton = styled.button`
-    background-color: ${({ theme }) => theme.elements}; 
-    border-radius: 5px;
-    cursor: pointer;
+    ${commonStyles}
     padding: 21px 24px;
     width; 200px;
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
     border: none;
     vertical-align: middle;
     transition: box-shadow 0.4s ease;
-    color: ${({ theme }) => theme.text}; 
 
     span {
         padding-right: 50px;
@@ -26,9 +31,7 @@ const DropdownButton = styled.button`
 `;
 
 const Menu = styled.nav`
-    background-color: ${({ theme }) => theme.elements};
-    border-radius: 5px;
-    color: ${({ theme }) => theme.text}; 
+    ${commonStyles}
     position: absolute;
     top: 60px;
     width: 200px;
@@ -48,20 +51,23 @@ const Menu = styled.nav`
         list-style: none;
         padding: 10px 0;
         margin: 0;
-        cursor: pointer;
     }
 
     li {
         padding: 4px 25px;
+
+        &:hover {
+            background-color: ${({ theme }) => theme.input};;
+        }
         
     }
 
-
 `;
 
-const DropdownMenu = ( props ) => {
+const FilterByRegion = ( props ) => {
     const dropdownRef = useRef(null);
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
+
     
     return(
         <DropdownStyle>
@@ -87,4 +93,4 @@ const DropdownMenu = ( props ) => {
     )
 }
 
-export default DropdownMenu;
+export default FilterByRegion;

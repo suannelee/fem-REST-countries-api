@@ -4,7 +4,7 @@
 
 export async function getCountryInfo(countryCode) {
     //const APIKEY = process.env.REACT_APP_COUNTRY_LAYER_API_KEY;
-    const url = "https://restcountries.com/v2/alpha/" + countryCode;
+    const url = "https://restcountries.com/v3.1/alpha/" + countryCode;
   
     const axios = require('axios');
     const CancelToken = axios.CancelToken;
@@ -14,29 +14,23 @@ export async function getCountryInfo(countryCode) {
       const response = await axios
         .get(url, { cancelToken: source.token });
 
-        var result = response.data;
+        var result = response.data[0];
 
         var country =  {
-                name: result.name,
-                //code: result.alpha3Code,
-                nativeName: result.nativeName,
+                name: result.name.common,
+                code: result.cca3,
+                nativeName: (result.name.nativeName ? Object.values(result.name.nativeName)[0].common : "NA"),
                 population: result.population.toLocaleString(),
                 region: result.region,
-                subregion: result.subregion,
-                capital: result.capital,
-                topLevelDomain: result.topLevelDomain[0],
-                currencies: result.currencies.map(curr =>{
-                    return curr.name
-                }),
-                languages: result.languages.map(lang =>{
-                    return lang.name
-                }),
-                flag: result.flag,
+                subregion: (result.subregion ? result.subregion : "NA"),
+                capital: (result.capital ? result.capital[0] : "NA"),
+                topLevelDomain: result.tld[0],
+                currencies: Object.keys(result.currencies),
+                languages: Object.values(result.languages),
+                flag: result.flags.svg,
                 borders: result.borders
             
         };
-
-        console.log(country);
         return country;
     } catch (error) {
       console.error(error);

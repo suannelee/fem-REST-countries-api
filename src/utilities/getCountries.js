@@ -4,7 +4,7 @@
 
 export async function getCountries() {
     //const APIKEY = process.env.REACT_APP_COUNTRY_LAYER_API_KEY;
-    const url = "https://restcountries.com/v3/all";
+    const url = "https://restcountries.com/v3.1/all";
   
     const axios = require('axios');
     const CancelToken = axios.CancelToken;
@@ -17,16 +17,15 @@ export async function getCountries() {
         var countries = response.data.map(country => {
             return {
                 name: country.name.common,
-                //capital: country.capital[0],
-                population: country.population.toLocaleString(),
+                capital: (country.capital ? country.capital[0] : "NA"),
+                population: country.population,
                 region: country.region,
-                flag: country.flags[0],
+                flag: country.flags.png,
                 code: country.cca3
             }
         });
 
         countries = countries.sort((a, b) => a.name > b.name ? 1 : -1);
-        //console.log(countries);
         return countries;
     } catch (error) {
       console.error(error);
