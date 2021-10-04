@@ -25,10 +25,10 @@ export async function getCountryInfo(countryCode) {
                 subregion: (result.subregion ? result.subregion : "NA"),
                 capital: (result.capital ? result.capital[0] : "NA"),
                 topLevelDomain: result.tld[0],
-                currencies: Object.values(result.currencies).map((curr,index) => {
-                  return curr.name;
-                }),
-                languages: Object.values(result.languages),
+                currencies: (result.currencies ? Object.values(result.currencies).map((curr,index) => {
+                  return curr.name;  
+                }) : ["NA"]),
+                languages: (result.languages ? Object.values(result.languages) : ["NA"]),
                 flag: result.flags.svg,
                 borders: result.borders
             
