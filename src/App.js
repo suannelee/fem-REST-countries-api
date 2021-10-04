@@ -80,7 +80,10 @@ const Icon = styled.span`
 const Dropdown = styled.div`
   display: flex;
   gap: 20px;
-  flex-flow: row;
+  flex-flow: column;
+  @media ${breakpoints.device.sm}{
+    flex-flow: row;
+  }
 `;
 
 const CardsWrapper = styled.div`
