@@ -25,7 +25,9 @@ export async function getCountryInfo(countryCode) {
                 subregion: (result.subregion ? result.subregion : "NA"),
                 capital: (result.capital ? result.capital[0] : "NA"),
                 topLevelDomain: result.tld[0],
-                currencies: Object.keys(result.currencies),
+                currencies: Object.values(result.currencies).map((curr,index) => {
+                  return curr.name;
+                }),
                 languages: Object.values(result.languages),
                 flag: result.flags.svg,
                 borders: result.borders
