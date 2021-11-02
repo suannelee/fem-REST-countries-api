@@ -34,7 +34,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [REST Countries API](https://country-rest-api-sl.netlify.app/)
 
 ## My process
 
@@ -52,6 +52,6 @@ Users should be able to:
 
 ### Useful resources
 
-- [Building a dropdown menu in React](https://letsbuildui.dev/articles/building-a-dropdown-menu-component-with-react-hooks) - Learned to build a custom state hook but it is still a little confusing.
+- [Building a dropdown menu in React](https://letsbuildui.dev/articles/building-a-dropdown-menu-component-with-react-hooks) 
 - [Toggle colour scheme with Styled Components](https://www.smashingmagazine.com/2020/04/dark-mode-react-apps-styled-components/)
 
